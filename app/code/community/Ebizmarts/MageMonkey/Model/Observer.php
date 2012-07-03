@@ -327,12 +327,13 @@ class Ebizmarts_MageMonkey_Model_Observer
 	 */
 	public function updateCustomer(Varien_Event_Observer $observer)
 	{
+		$post = Mage::app()->getRequest()->getPost();
 		if(!Mage::helper('monkey')->canMonkey()){
 			return;
 		}
 
 		$customer = $observer->getEvent()->getCustomer();
-
+        
 		//Handle additional lists subscription on Customer Create Account
 		Mage::helper('monkey')->additionalListsSubscription($customer);
 
@@ -351,6 +352,12 @@ class Ebizmarts_MageMonkey_Model_Observer
 				$api->listUpdateMember($listId, $oldEmail, $mergeVars);
 			}
 		}
+		//Unsubscribe when update customer from admin
+		if (!isset($post['subscription'])) {
+                 $subscriber = Mage::getModel('newsletter/subscriber')
+                               ->loadByEmail($customer->getEmail());
+                 $subscriber->setImportMode(TRUE)->unsubscribe();
+        }
 
 		return $observer;
 	}
