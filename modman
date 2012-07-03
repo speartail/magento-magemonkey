@@ -1,0 +1,8 @@
+app/code/community/Ebizmarts/MageMonkey/                    app/code/community/Ebizmarts/MageMonkey/
+app/etc/modules/Ebizmarts_MageMonkey.xml                    app/etc/modules/Ebizmarts_MageMonkey.xml
+app/design/adminhtml/default/default/layout/magemonkey.xml  app/design/adminhtml/default/default/layout/magemonkey.xml
+app/design/frontend/base/default/layout/magemonkey.xml      app/design/frontend/base/default/layout/magemonkey.xml
+app/design/frontend/base/default/template/magemonkey/       app/design/frontend/base/default/template/magemonkey
+app/locale/en_US/Ebizmarts_MageMonkey.csv                   app/locale/en_US/Ebizmarts_MageMonkey.csv
+skin/adminhtml/default/default/magemonkey/                  skin/adminhtml/default/default/magemonkey/
+skin/frontend/base/default/magemonkey/                      skin/frontend/base/default/magemonkey/
