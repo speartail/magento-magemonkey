@@ -32,13 +32,20 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
 
 		$email  = $subscriber->getSubscriberEmail();
-		$listId = Mage::helper('monkey')->getDefaultList( ($subscriber->getMcStoreId() ? $subscriber->getMcStoreId() : Mage::app()->getStore()->getId()));
-
+		if($subscriber->getMcStoreId()){
+			$listId = Mage::helper('monkey')->getDefaultList($subscriber->getMcStoreId());
+		}
+		elseif($subscriber->getStoreId()){
+			$listId = Mage::helper('monkey')->getDefaultList($subscriber->getStoreId());
+		}
+		else{
+			$listId = Mage::helper('monkey')->getDefaultList(Mage::app()->getStore()->getId());
+		}
+		$subscriber->setImportMode(TRUE);
 		$isConfirmNeed = FALSE;
 		if( !Mage::helper('monkey')->isAdmin() &&
 			(Mage::getStoreConfig(Mage_Newsletter_Model_Subscriber::XML_PATH_CONFIRMATION_FLAG, $subscriber->getStoreId()) == 1) ){
 			$isConfirmNeed = TRUE;
-			$subscriber->setImportMode(TRUE);
 		}
 
         //Check if customer is not yet subscribed on MailChimp
@@ -53,6 +60,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 
 			if( TRUE === $isConfirmNeed ){
 				$subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED);
+				Mage::getSingleton('core/session')->addSuccess(Mage::helper('monkey')->__('Confirmation request has been sent.'));
 			}
 
 			Mage::getSingleton('monkey/api')
@@ -193,7 +201,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 				$additionalLists = Mage::helper('monkey')->getAdditionalList(Mage::app()->getStore()->getId());
 			}
 		}
-		
+
 		if(is_array($additionalLists)){
 			$selectedLists = array_merge($selectedLists, $additionalLists);
 		}
@@ -333,7 +341,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
 
 		$customer = $observer->getEvent()->getCustomer();
-        
+
 		//Handle additional lists subscription on Customer Create Account
 		Mage::helper('monkey')->additionalListsSubscription($customer);
 
@@ -352,8 +360,9 @@ class Ebizmarts_MageMonkey_Model_Observer
 				$api->listUpdateMember($listId, $oldEmail, $mergeVars);
 			}
 		}
+		$request = Mage::app()->getRequest();
 		//Unsubscribe when update customer from admin
-		if (!isset($post['subscription'])) {
+		if (!isset($post['subscription']) && $request->getActionName() == 'save' && $request->getControllerName() == 'customer' && $request->getModuleName() == (string)Mage::getConfig()->getNode('admin/routers/adminhtml/args/frontName')) {
                  $subscriber = Mage::getModel('newsletter/subscriber')
                                ->loadByEmail($customer->getEmail());
                  $subscriber->setImportMode(TRUE)->unsubscribe();
@@ -484,8 +493,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 		return $mergeVars;
 	}
 
-	/**
-	 * Add mass action option to Sales -> Order grid in admin panel to send orders to MC (Ecommerce360)
+	/** Add mass action option to Sales -> Order grid in admin panel to send orders to MC (Ecommerce360)
 	 *
 	 * @param Varien_Event_Observer $observer
 	 * @return void
@@ -497,7 +505,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
         $block = $observer->getEvent()->getBlock();
 
-        if(get_class($block) == 'Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction') {
+        if(get_class($block) == 'Mage_Adminhtml_Block_Widget_Grid_Massaction') {
 
             if($block->getRequest()->getControllerName() == 'sales_order') {
 
