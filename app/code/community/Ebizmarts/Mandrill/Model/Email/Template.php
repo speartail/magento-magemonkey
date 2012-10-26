@@ -33,7 +33,10 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
 	 * @return Ebizmarts_Mandrill_Model_Email_Template
 	 */
     public function addBcc($bcc) {
-
+		$helper = Mage::helper('mandrill');
+    	if(FALSE === $helper->useTransactionalService()){
+            return parent::addBcc($bcc);
+        }
         if (is_array($bcc)) {
             foreach ($bcc as $email) {
                 $this->_bcc[] = $email;
@@ -144,8 +147,11 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
 		return $tags;
     }
 
-    public function setReplyTo($email)
-    {
+    public function setReplyTo($email) {
+        if(FALSE === Mage::helper('mandrill')->useTransactionalService()) {
+            return parent::setReplyTo($email);
+        }
+
 		$this->replyTo = $email;
         return $this;
     }
