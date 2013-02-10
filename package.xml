@@ -1,0 +1,111 @@
+<?xml version="1.0"?>
+<package>
+    <name>Ebizmarts_MageMonkey</name>
+    <version>1.0.22</version>
+    <stability>stable</stability>
+    <license uri="http://www.opensource.org/licenses/osl-3.0.php">OSL v3.0</license>
+    <channel>community</channel>
+    <extends/>
+    <summary>MailChimp integration for Magento by Ebizmarts</summary>
+    <description>Full MailChimp integration, automatic webhooks, multiple lists, interest groups</description>
+    <notes>-- version 1.0.22 stable&#xD;
+&#xD;
+- Adding Oauth2 support to connect MageMonkey with MailChimp&#xD;
+- Fallback on setReplyTo in Mandrill when transactional email is not enabled&#xD;
+- addBcc Fix on Mandrill&#xD;
+&#xD;
+-- version 1.0.21 stable&#xD;
+&#xD;
+- Fix duplicated confirmation email notifications&#xD;
+- Add success message when customer register from the "My Account" section&#xD;
+- Add mass action option to Sales -&gt; Order grid in admin panel to send orders to MC&#xD;
+- Fix Mandrill_API::addTo() and Mandrill_API::replyTo() issues in the Mandrill module&#xD;
+- Add version information in the configuration for the Mandrill module&#xD;
+&#xD;
+-- version 1.0.19 stable&#xD;
+&#xD;
+- Fix automatic unsubscribe issue when users create orders from backend&#xD;
+- Adding BCC support for Mandrill Emails&#xD;
+- Remove enconding from subject for Mandrill Emails&#xD;
+- Add tags in emails sent from Mandrill&#xD;
+&#xD;
+-- version 1.0.18 stable&#xD;
+&#xD;
+Independence between MageMonkey and Mandrill modules&#xD;
+&#xD;
+-- version 1.0.17 stable&#xD;
+&#xD;
+-Fix "unsubscribe" when place an order &#xD;
+&#xD;
+-- version 1.0.16 stable&#xD;
+&#xD;
+- Fix progress bar on export function &#xD;
+- Add option in admin for limit of customers per round for export and import and delete customers in Magento when are removed in MailChimp&#xD;
+- Fix unsubscribe on edit customer from the admin panel&#xD;
+- Add version in the config&#xD;
+- Fix "Fatal error: Cannot use string offset as an array"&#xD;
+&#xD;
+-- version 1.0.15 stable&#xD;
+&#xD;
+- fix rendering of additional lists html elements&#xD;
+- Fix force subscription on checkout when use a payment method wich redirects to a payment page like PayPal Express Checkout.&#xD;
+&#xD;
+-- version 1.0.14 stable&#xD;
+    Fix Export functionality, only customers with status "subscribed" are exported now.&#xD;
+Increase the limit of customers for exports from 200 to 1000 per hour&#xD;
+Fix bug in unsubscribe customers.&#xD;
+Send email confirmation in double opt-in is not used.&#xD;
+Improve the save configuration proccess, add warnings, remove blank messages, improve the auto save webhooks in MailChimp.&#xD;
+Fix force subscription on checkout when use a payment method wich redirects to a payment page like PayPal Express Checkout.&#xD;
+Add new help links in the configuration ("What's MailChimp my IP Key?" and "How to segment your list based on your customers purchase activity").&#xD;
+Don't display additional lists newsletter block on checkout when there are no additional lists selected&#xD;
+&#xD;
+-- version 1.0.13 stable&#xD;
+    Fixing bug on admin urls when store code is used, more bugs fixed.&#xD;
+&#xD;
+-- version 1.0.12 stable&#xD;
+    Fixing bug on renderer for old magentos&#xD;
+&#xD;
+-- version 1.0.11 stable&#xD;
+   Adding export jobs per store id&#xD;
+&#xD;
+-- version 1.0.10 stable&#xD;
+    Fixing Ebizmarts_MageMonkey_Block_Adminhtml_Renderer_Lists bug&#xD;
+    Fixing bug on MyAccount when subscribing, unsubscribing&#xD;
+    Fix for bug on account creation, automatically subscribing&#xD;
+    Ecommerce360 total with discount&#xD;
+    Fixing but on order saving issue when customer is subscribed on MailChimp&#xD;
+    Fixing error on cart page when compilation is ON&#xD;
+&#xD;
+-- version 1.0.9 stable&#xD;
+       Bug fix on webhooks url when Rewrites are not enabled&#xD;
+&#xD;
+-- version 1.0.8 stable&#xD;
+       Bug fix on checkout subscribe issues and EE customer credit balance issue fix (Customer is not set or does not exist.)&#xD;
+&#xD;
+-- version 1.0.7 stable&#xD;
+       Bug fix on TinyMCE inserting image, workaround for Magento passing a store parameter with undefined value.&#xD;
+&#xD;
+-- version 1.0.6 stable&#xD;
+       Fix bug when on hardcoded default store code. Additional Lists. &#xD;
+&#xD;
+-- version 1.0.4 stable&#xD;
+       Fix bug when checking newsletter box when registering. Adding customer groups as Interest Grouping&#xD;
+&#xD;
+-- version 1.0.2 beta&#xD;
+       Fixing bug on bulk export for customers, gets stuck on 200&#xD;
+&#xD;
+-- version 1.0.1 beta&#xD;
+       Bug fixing when deleting a subscriber&#xD;
+&#xD;
+-- version 1.0.0 beta&#xD;
+       Including STS&#xD;
+&#xD;
+First public release 0.0.9, January 2012</notes>
+    <authors><author><name>Ebizmarts Development Team</name><user>auto-converted</user><email>info@ebizmarts.com</email></author></authors>
+    <date>2012-10-24</date>
+    <time>13:21:08</time>
+    <contents><target name="magecommunity"><dir name="Ebizmarts"><dir name="MageMonkey"><dir name="Block"><dir name="Adminhtml"><dir name="Bulksync"><dir name="Export"><file name="Form.php" hash="494b043f37b3e50b64ebcdf839404bcd"/></dir><dir name="Import"><file name="Form.php" hash="876d2d4779f6cab94efcf875e9f91124"/></dir><dir name="Queue"><file name="Grid.php" hash="390dd759c2817044c44a0871819517b1"/></dir><dir name="QueueExport"><file name="Grid.php" hash="1cb203d2f38900984108a7e5a799bd31"/></dir><dir name="QueueImport"><file name="Grid.php" hash="75363f7b616236e0d0b61625cb47b034"/></dir><file name="Export.php" hash="839406dcc6fdc21eafcc2a4482c409d9"/><file name="Import.php" hash="ffd9954540eb34e843924bf883ad96a9"/><file name="Queue.php" hash="cb98b0a44474e0c73f8e2deadfe040d5"/><file name="QueueExport.php" hash="c265f7173b88cdccf86c95d7189a8b7a"/><file name="QueueImport.php" hash="1ab842ed0d21fdcef5c1a03395036754"/></dir><dir name="Customer"><dir name="Edit"><dir name="Tab"><file name="Memberactivity.php" hash="b36206aff7545c2daeaecae13c09ccc0"/></dir></dir></dir><dir name="Ecommerce"><file name="Grid.php" hash="88966d1303b9fa05e544d723bbe35df0"/></dir><dir name="Ecommerceapi"><dir name="Renderer"><file name="Items.php" hash="e1d1f0fa96a0fc43e4cf13de1e919fbf"/></dir><file name="Grid.php" hash="4082405d6e7d83b1b08fcaf56c5b2ffd"/></dir><dir name="Memberactivity"><file name="Grid.php" hash="8852c0855742db9d2f319f1fc1e6c8e8"/></dir><dir name="Renderer"><file name="Date.php" hash="d49c78b64451be697c8618b8d0359594"/><file name="Importypes.php" hash="c701400787cf5030c9443985ff71d641"/><file name="Lists.php" hash="941bc98f92c814efe2889b978ed478f8"/><file name="Progress.php" hash="a0a1c6e7820779f9816bc2573c498480"/><file name="Yesno.php" hash="dfa6a63276fc013759f1624bf5b4b011"/></dir><dir name="System"><dir name="Config"><dir name="Fieldset"><file name="Hint.php" hash="45539bad8e3b4fa643d018c26b965493"/></dir><dir name="Form"><dir name="Field"><file name="Mapfields.php" hash="2a842a1af2cf5c77811e2278af24c8ad"/></dir></dir><file name="Account.php" hash="da002554cad88eb8a2c88db03911ecbe"/><file name="OauthWizard.php" hash="5e7284770d5a5861a9c208b0bb1af400"/></dir></dir><dir name="Transactionalemail"><dir name="Mandrill"><file name="Grid.php" hash="9bdba2256861d7b2b956eebdf5f74810"/></dir><dir name="Newemail"><file name="Form.php" hash="2dc7e08b4ac6db0a8feaeb8edcac298b"/></dir><dir name="Sts"><file name="Grid.php" hash="f676f809fb853345f2cb4024c8439b18"/></dir><file name="Mandrill.php" hash="2b61e9227eacf5cf9f63c2a6636a122a"/><file name="Newemail.php" hash="ff60f1428e93cd85ff433b8c8991914c"/><file name="Sts.php" hash="3e11110c89e687a76e0b5eb16382cbf3"/></dir><file name="Ecommerce.php" hash="23466d320d6cf639262ea45295ca7fad"/><file name="Ecommerceapi.php" hash="2362186beb28cea702c720ddaca6ff59"/></dir><dir name="Checkout"><file name="Subscribe.php" hash="f3c2c7c5355179ee3f83674fbf55df01"/></dir><dir name="Customer"><dir name="Account"><file name="Lists.php" hash="6d9663c09c6fd9e7aa60c6004f5830d6"/></dir></dir><file name="Lists.php" hash="4001aa6bdb25c8da694f21c8f86756a9"/><file name="Signup.php" hash="381f59bcb8076de6e4cc4a58ec1749de"/></dir><dir name="Helper"><file name="Cache.php" hash="461d2b77aff5eb4bad80a52b65978f0d"/><file name="Data.php" hash="c8036c5c00bbb2da2f6ea520d313a38e"/><file name="Export.php" hash="bb36cff9864f8d53570200b371d84148"/><file name="Oauth2.php" hash="96e747768b4a0f2197ca1dda34e718cd"/></dir><dir name="Model"><dir name="Custom"><file name="Collection.php" hash="0ef74aaaac158aea31f90f6968ad651d"/></dir><dir name="Email"><file name="Template.php" hash="15e22e333d3ea8ed4cca2a5d8ecbfd0f"/></dir><dir name="Mysql4"><dir name="Apidebug"><file name="Collection.php" hash="bda066b79c0d02744517bdedcecc0f63"/></dir><dir name="Bulksync"><dir name="Export"><file name="Collection.php" hash="8867a8e938fdbe6ea2727d5a47394a88"/></dir><dir name="Import"><file name="Collection.php" hash="2cb299ac506584ac4ab7baa61523fe55"/></dir><file name="Export.php" hash="257ebb74a4098a5c871e333139f46030"/><file name="Import.php" hash="8a69917cdcc660f0c907f5047301064e"/></dir><dir name="Ecommerce"><file name="Collection.php" hash="249fc8232239f7b6caeb3637ab3563dc"/></dir><file name="Apidebug.php" hash="97ca435168f87996cc6ec28c8416f6a5"/><file name="Ecommerce.php" hash="aab9408ea22072c8f64b253d53a2b0c5"/></dir><dir name="System"><dir name="Config"><dir name="Source"><file name="Account.php" hash="cfe2a819e278a6316dada4f1e8a5f0b8"/><file name="BulksyncDatasource.php" hash="0e60006bd0f9d621efed121a51764942"/><file name="BulksyncStatus.php" hash="0d8aec39d675d1f1e182ebf9e6521036"/><file name="Checkoutsubscribe.php" hash="1354dc01bc7f2ae34345a6a326f441b0"/><file name="CronProcessLimit.php" hash="d5ea4bcf96d89161746bf668f3c08caa"/><file name="Ecommerce360.php" hash="6b50d43330f447fcdfba91eef9f10b89"/><file name="List.php" hash="b7e3facaa5ee55753c065bae06f7d490"/><file name="Status.php" hash="dfb9f8702682ec6b7493e56bf995d40f"/><file name="TransactionalEmails.php" hash="8268078df511548abbc2dfa2730eb466"/><file name="WebhookDelete.php" hash="31a3456d1917da0d36fc1602aad90dab"/></dir></dir></dir><dir name="TransactionalEmail"><file name="Adapter.php" hash="48c9343c6a83f76dbf9ca5f111631f4a"/><file name="MANDRILL.php" hash="e9c9ade76a71d4feb9f78636ab9dbc4b"/><file name="STS.php" hash="3475e766d22ad464559b4e5b5a9cf03d"/></dir><file name="Api.php" hash="ff4937f6725ac342db5e9cb32827b233"/><file name="Apidebug.php" hash="c12fdbbcc042b5c00105fa27927da2f2"/><file name="BulksyncExport.php" hash="4ac2dffdfdbeb613ec662ff3cea3de45"/><file name="BulksyncImport.php" hash="2584cba71ec74d00304fb0c17258a3c6"/><file name="Cache.php" hash="8cd79a8368972846ce4197d9c7f975cc"/><file name="Cron.php" hash="399639f1b5b7caf713fe537c8c9ba5d6"/><file name="Ecommerce.php" hash="ac3cda4fa10edce879e4c685ac405db1"/><file name="Ecommerce360.php" hash="ead4b9865d0ce21d5b4f8f64029822d7"/><file name="MCAPI.php" hash="e0069816d5254a6d865412e0ce7246bc"/><file name="MCEXPORTAPI.php" hash="a559121e56448f22c58470635fb5f9ff"/><file name="Monkey.php" hash="eb5fe1633c912ac24992125329807dd2"/><file name="Observer.php" hash="c8a85491b58dc9433e86ff0661b7e03f"/></dir><dir name="controllers"><dir name="Adminhtml"><file name="BulksyncController.php" hash="d1be92d5ba05fd106bfe0e1f9ddcf622"/><file name="EcommerceController.php" hash="75aba120e3223cbbdb7273faf8fd2cab"/><file name="TransactionalemailController.php" hash="1af1861fa74ddc0e917c8ea7f66c4843"/></dir><dir name="Customer"><file name="AccountController.php" hash="62b34054aa3b72a18570cf1b7fde48d1"/></dir><file name="SignupController.php" hash="e4d83eec491e96aada17e248c84a33fe"/><file name="WebhookController.php" hash="7d63156c8e72e4e47238dd103f603a6b"/></dir><dir name="etc"><file name="adminhtml.xml" hash="5ec03dd6675e08b5d3d9a0317481178d"/><file name="config.xml" hash="c2811c899f627a6ede1e3d9580ed1ecf"/><file name="system.xml" hash="a8311ebc83c3466dbca00dd94482e899"/></dir><dir name="sql"><dir name="monkey_setup"><file name="mysql4-install-0.0.1.php" hash="4df34769f4d5a8ceca90fd582500e3a9"/><file name="mysql4-upgrade-0.0.1-0.0.2.php" hash="d81147dab407bc55c59cddb5a764c53e"/><file name="mysql4-upgrade-0.0.2-0.0.3.php" hash="ce1925ff2ab03aa9fd6cbe43283ea37d"/><file name="mysql4-upgrade-0.0.3-0.0.4.php" hash="7f1e38bcf030e6346a9fd8321f1a4362"/><file name="mysql4-upgrade-0.0.4-0.0.5.php" hash="bbe6b895320effca77cc2c23431f043f"/><file name="mysql4-upgrade-0.0.5-0.0.6.php" hash="98b72d9ef4ec8078c09a1f641fc35a39"/><file name="mysql4-upgrade-0.0.6-0.0.7.php" hash="ea15755fc072e7c82b78063589360779"/><file name="mysql4-upgrade-1.0.10-1.0.11.php" hash="b2ec497921eb2bd9a97a318554fd980b"/></dir></dir></dir><dir name="Mandrill"><dir name="Block"><dir name="Adminhtml"><dir name="System"><dir name="Config"><dir name="Fieldset"><file name="Hint.php" hash="e74ee5dac57de8157c1b22499fc3cc17"/></dir><file name="Userinfo.php" hash="5f4bb5e8b314ecd2662eb428a89eb6ab"/></dir></dir><dir name="Users"><dir name="Senders"><file name="Grid.php" hash="b6edb098f54daad0ccc046e37407f56f"/></dir><file name="Senders.php" hash="65406b23588d5ac1681c2767676f8634"/></dir></dir></dir><dir name="Helper"><file name="Data.php" hash="930116d800b6ebb54bd69867328d3300"/></dir><dir name="Model"><dir name="Email"><file name="Template.php" hash="6a1877b5c26ae7f9e9bd1dc28f397e8c"/></dir><dir name="System"><dir name="Config"><dir name="Source"><file name="Userinfo.php" hash="b7ebed36a640a389cad61faddd62d30f"/></dir></dir></dir><file name="Customcollection.php" hash="6cf600e84ff59c89be519171c0df22e3"/></dir><dir name="controllers"><dir name="Adminhtml"><dir name="Mandrill"><file name="UsersController.php" hash="e7f1cb19d1bb424a873797844768bbbf"/></dir></dir></dir><dir name="etc"><file name="adminhtml.xml" hash="af71f4a3a16c40e2b6862061ddad0a19"/><file name="config.xml" hash="2b0dc8c65c2f9be8c43d49bfde8aee77"/><file name="config.xml~" hash="6962b68ca63ad60ef4959d57eb8d6ea4"/><file name="system.xml" hash="e918c619a4cf67e139eeed5412a81d4b"/></dir></dir></dir></target><target name="magedesign"><dir name="frontend"><dir name="base"><dir name="default"><dir name="layout"><file name="magemonkey.xml" hash="f86c4a1e77468bf497bbc31f00d379c9"/></dir><dir name="template"><dir name="magemonkey"><dir name="checkout"><file name="subscribe.phtml" hash="f4483d33b744a41be32625e23293c75c"/></dir><dir name="customer"><dir name="account"><file name="lists.phtml" hash="9a81bc227a165994ac08ea615e5d8c3e"/></dir></dir><file name="lists.phtml" hash="7e926b176777710fe1c990acfa6917e8"/></dir></dir></dir></dir></dir><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="layout"><file name="magemonkey.xml" hash="613e5cd38048dedadb96434b9c3cc704"/><file name="mandrill.xml" hash="a79308bc32db35d45b151c01041be72d"/></dir><dir name="template"><dir name="magemonkey"><dir name="system"><dir name="config"><dir name="fieldset"><file name="hint.phtml" hash="17e2a4fb2406a9ab1d1893ca011fc37e"/></dir><file name="oauth_wizard.phtml" hash="226d42be1f41838bb80da0e2c3567d71"/></dir></dir></dir><dir name="mandrill"><dir name="system"><dir name="config"><dir name="fieldset"><file name="hint.phtml" hash="0350a73bd32e41cef2764b60bae65fe3"/></dir></dir></dir></dir></dir></dir></dir></dir></target><target name="mageetc"><dir name="modules"><file name="Ebizmarts_MageMonkey.xml" hash="9a4b1c469b4652442c7a5f945dd12cac"/><file name="Ebizmarts_Mandrill.xml" hash="c80aa6f98ccc3890303bb4c278f8ad95"/></dir></target><target name="magelocale"><dir name="en_US"><file name="Ebizmarts_MageMonkey.csv" hash="181e91ed91dfea5fe7dab66af5719af8"/><file name="Ebizmarts_Mandrill.csv" hash="3dac3af57664fd34f5eda8abf4098ee0"/></dir></target><target name="mageskin"><dir name="frontend"><dir name="base"><dir name="default"><dir name="magemonkey"><file name="magemonkey.css" hash="d4eac40764271596a3edc30d1014887f"/><file name="monkey.js" hash="d7d2e3f137d97202214fe29551695739"/></dir></dir></dir></dir><dir name="adminhtml"><dir name="default"><dir name="default"><dir name="mandrill"><file name="mandrill-tab.png" hash="d7eaf9deef355e4b8b55a96070b90ffe"/><file name="mandrill.css" hash="a324beb28d4a782e8c39a13fde8d11a2"/></dir><dir name="magemonkey"><file name="magemonkey.css" hash="e7a687b07ac761a47f7308f77cf4f94e"/><file name="magemonkey.js" hash="e40717a83ef300776cc79ad9f8191005"/><file name="mailchimp-connected-ebizmarts-title.png" hash="c6bcb1aa606ecd3b0a9753bb48ddeb58"/><file name="mailchimp-ico.png" hash="14978ec398cede4060bc9b00365bb6c5"/><file name="mailchimp-section-background.png" hash="d4536261c6a3534fbb855428c0cca62c"/><file name="mailchimp-tab.png" hash="61972b4e063364071e81d8c9e10d8feb"/></dir></dir></dir></dir></target><target name="mage"><dir name="lib"><dir name="Mandrill"><file name="API.php" hash="8a1a65e95b11f6a513d41a690ae13211"/></dir></dir></target></contents>
+    <compatible/>
+    <dependencies/>
+</package>
