@@ -463,6 +463,15 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 						}
 
 						break;
+					case 'group_id':
+							$group_id = (int)$customer->getData(strtolower($customAtt));
+							$customerGroup = Mage::helper('customer')->getGroups()->toOptionHash();
+							if($group_id == 0){
+								$merge_vars[$key] = 'NOT LOGGED IN';
+							}else{
+								$merge_vars[$key] = $customerGroup[$group_id];
+							}
+						break;
 					default:
 
 						if( ($value = (string)$customer->getData(strtolower($customAtt)))
@@ -477,7 +486,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 		}
 
 		//GUEST
-		if( !$customer->getId() ){
+		if( !$customer->getId() && (!$request->getPost('firstname') || !$request->getPost('lastname'))){
 			$guestFirstName = $this->config('guest_name', $customer->getStoreId());
 			$guestLastName  = $this->config('guest_lastname', $customer->getStoreId());
 
@@ -496,6 +505,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 
 		$groups = $customer->getListGroups();
 		$groupings = array();
+
 		if(is_array($groups) && count($groups)){
 			foreach($groups as $groupId => $grupoptions){
 				$groupings[] = array(
@@ -503,20 +513,6 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 								     'groups' => (is_array($grupoptions) ? implode(', ', $grupoptions) : $grupoptions)
 								    );
 			}
-		}
-
-		//Add customer group for logged in customers
-		if( $customer->getId() && $customer->getMcListId()){
-
-			$groupId = (int)Mage::getStoreConfig("monkey/groupings/list_" . $customer->getMcListId(), $customer->getStoreId());
-			if($groupId){
-				$groups = Mage::helper('customer')->getGroups()->toOptionHash();
-				$groupings[] = array(
-					'id'     => $groupId,
-					'groups' => $groups[$customer->getGroupId()],
-				);
-			}
-
 		}
 
 		$merge_vars['GROUPINGS'] = $groupings;
