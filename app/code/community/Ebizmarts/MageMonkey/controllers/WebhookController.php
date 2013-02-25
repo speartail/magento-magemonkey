@@ -35,9 +35,12 @@ class Ebizmarts_MageMonkey_WebhookController extends Mage_Core_Controller_Front_
 		$myKey = Mage::helper('monkey')->getWebhooksKey(null, $data['list_id']);
 
 		//Validate "wkey" GET parameter
-		if (($requestKey == $myKey) && ($this->getRequest()->getPost('type'))) {
+		if ($this->getRequest()->getPost('type')) {
 			Mage::getModel('monkey/monkey')->processWebhookData($this->getRequest()->getPost());
+		} else {
+		    Mage::helper('monkey')->log($this->__('WebHook Key invalid! Key Request: %s. My Key: %s', $requestKey, $myKey));
 		}
+
 
 	}
 
