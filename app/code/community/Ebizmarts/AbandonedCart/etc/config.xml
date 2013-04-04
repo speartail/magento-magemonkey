@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ebizmarts_AbandonedCart>
-            <version>0.1.5</version>
+            <version>0.1.10</version>
         </Ebizmarts_AbandonedCart>
     </modules>
     <global>
@@ -14,11 +14,6 @@
                     <file>sales/abandoned_cart.html</file>
                     <type>html</type>
                 </ebizmarts_abandonedcart_general_template>
-                <!--ebizmarts_abandonedcart_general_coupon_template translate="label" module="ebizmarts_abandonedcart">
-                    <label>Abandoned Cart Mail With Coupon</label>
-                    <file>sales/abandoned_cart_w_coupon.html</file>
-                    <type>html</type>
-                </ebizmarts_abandonedcart_general_coupon_template-->
             </email>
         </template>
         <models>
@@ -47,6 +42,11 @@
                 </setup>
             </ebizmarts_abandonedcart_setup>
         </resources>
+        <fieldsets>
+            <sales_convert_quote>
+                <ebizmarts_abandonedcart_flag><to_order>*</to_order></ebizmarts_abandonedcart_flag>
+            </sales_convert_quote>
+        </fieldsets>
     </global>
 
     <admin>
@@ -69,6 +69,15 @@
                 </ebizmarts_abandonedcart>
             </updates>
         </layout>
+        <translate>
+            <modules>
+                <Ebizmarts_AbandonedCart>
+                    <files>
+                        <default>Ebizmarts_AbandonedCart.csv</default>
+                    </files>
+                </Ebizmarts_AbandonedCart>
+            </modules>
+        </translate>
     </adminhtml>
 
     <frontend>

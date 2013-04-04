@@ -10,7 +10,7 @@ All rights belong to EbizMarts and the only changes we are making are:
 
 ## Version
 
-1.1.0 as of 2013-02-25
+1.1.5 as of 2013-03-20
 
 Please always check http://ebizmarts.com for the latest version and do let us
 know if we fall behind.
