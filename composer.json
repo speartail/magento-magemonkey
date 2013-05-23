@@ -4,6 +4,9 @@
     "type": "magento-module",
     "description": "MageMonkey Official (and free) MailChimp integration for Magento",
     "homepage": "http://ebizmarts.com/mailchimp",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
     "authors":[
         {
             "name":"ebizmarts, peterhoeg"
