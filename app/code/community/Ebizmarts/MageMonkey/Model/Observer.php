@@ -31,6 +31,10 @@ class Ebizmarts_MageMonkey_Model_Observer
 			return $observer;
 		}
 
+		if(Mage::getSingleton('core/session')->getMonkeyCheckout(TRUE)){
+			return $observer;
+		}
+
 		$email  = $subscriber->getSubscriberEmail();
 		if($subscriber->getMcStoreId()){
 			$listId = Mage::helper('monkey')->getDefaultList($subscriber->getMcStoreId());
@@ -48,6 +52,10 @@ class Ebizmarts_MageMonkey_Model_Observer
 			$isConfirmNeed = TRUE;
 		}
 
+		if($isConfirmNeed){
+       		$subscriber->setStatus(Mage_Newsletter_Model_Subscriber::STATUS_UNCONFIRMED);
+		}
+
         //Check if customer is not yet subscribed on MailChimp
 		$isOnMailChimp = Mage::helper('monkey')->subscribedToList($email, $listId);
 
@@ -63,10 +71,11 @@ class Ebizmarts_MageMonkey_Model_Observer
        			Mage::getSingleton('core/session')->addSuccess(Mage::helper('monkey')->__('Confirmation request has been sent.'));
  			}
 
-			Mage::getSingleton('monkey/api')
-								->listSubscribe($listId, $email, $this->_mergeVars($subscriber), 'html', $isConfirmNeed);
+			Mage::getSingleton('monkey/api')->listSubscribe($listId, $email, $this->_mergeVars($subscriber), 'html', $isConfirmNeed);
 
-        }else{
+        }
+        // This code unsubscribe users if it's on MailChimp and the status it's unconfirmed
+        /*else{
             if(($isOnMailChimp == 1) && ($subscriber->getStatus() == Mage_Newsletter_Model_Subscriber::STATUS_UNSUBSCRIBED)){
                 $rs = Mage::getSingleton('monkey/api')
                                 ->listUnsubscribe($listId, $email);
@@ -74,7 +83,7 @@ class Ebizmarts_MageMonkey_Model_Observer
                     Mage::throwException($rs);
                 }
             }
-        }
+        }*/
 
 	}
 
@@ -149,7 +158,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 	public function saveConfig(Varien_Event_Observer $observer)
 	{
 
-		$scope = is_null($observer->getEvent()->getStore()) ? 'default' : $observer->getEvent()->getStore();
+		$scope = is_null($observer->getEvent()->getStore()) ? Mage::app()->getDefaultStoreView()->getCode(): $observer->getEvent()->getStore();
 		$post   = Mage::app()->getRequest()->getPost();
 		$request = Mage::app()->getRequest();
 
@@ -222,6 +231,10 @@ class Ebizmarts_MageMonkey_Model_Observer
 		    $hookUrl  = Mage::getModel('core/url')->setStore($store)->getUrl(Ebizmarts_MageMonkey_Model_Monkey::WEBHOOKS_PATH, array('wkey' => $webhooksKey));
 		}catch(Exception $e){
 			$hookUrl  = Mage::getModel('core/url')->getUrl(Ebizmarts_MageMonkey_Model_Monkey::WEBHOOKS_PATH, array('wkey' => $webhooksKey));
+		}
+
+		if(FALSE != strstr($hookUrl, '?', true)){
+			$hookUrl = strstr($hookUrl, '?', true);
 		}
 
 		$api = Mage::getSingleton('monkey/api', array('apikey' => $apiKey));
@@ -377,8 +390,12 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
 
 		if(is_object($order) && $order->getId()){
-
-			$sessionFlag = Mage::getSingleton('core/session')->getMonkeyCheckout(TRUE);
+			//Set Campaign Id if exist
+			$campaign_id = Mage::getModel('monkey/ecommerce360')->getCookie()->get('magemonkey_campaign_id');
+			if($campaign_id){
+				$order->setEbizmartsMagemonkeyCampaignId($campaign_id);
+			}
+			$sessionFlag = Mage::getSingleton('core/session')->getMonkeyCheckout();
 			$forceSubscription = Mage::helper('monkey')->canCheckoutSubscribe();
 			if($sessionFlag || $forceSubscription == 3){
 				//Guest Checkout
@@ -388,6 +405,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 
 				try{
 					$subscriber = Mage::getModel('newsletter/subscriber')
+						->setImportMode(TRUE)
 						->subscribe($order->getCustomerEmail());
 				}catch(Exception $e){
 					Mage::logException($e);
@@ -469,7 +487,7 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
         $block = $observer->getEvent()->getBlock();
 
-        if(get_class($block) == 'Mage_Adminhtml_Block_Widget_Grid_Massaction') {
+        if($block instanceof Mage_Adminhtml_Block_Widget_Grid_Massaction || $block instanceof Enterprise_SalesArchive_Block_Adminhtml_Sales_Order_Grid_Massaction) {
 
             if($block->getRequest()->getControllerName() == 'sales_order') {
 

@@ -45,16 +45,16 @@ class Ebizmarts_MageMonkey_Block_Adminhtml_Ecommerce_Grid extends Mage_Adminhtml
             'index' => 'order_increment_id',
         ));
 
-        $this->addColumn('mc_campaign_id	', array(
+        $this->addColumn('mc_campaign_id', array(
             'header'=> Mage::helper('monkey')->__('Campaign #'),
             'width' => '80px',
-            'index' => 'mc_campaign_id	'
+            'index' => 'mc_campaign_id'
         ));
 
-        $this->addColumn('mc_email_id	', array(
+        $this->addColumn('mc_email_id', array(
             'header'=> Mage::helper('monkey')->__('Email #'),
             'width' => '80px',
-            'index' => 'mc_email_id	'
+            'index' => 'mc_email_id'
         ));
 
         $this->addColumn('created_at', array(
@@ -76,4 +76,17 @@ class Ebizmarts_MageMonkey_Block_Adminhtml_Ecommerce_Grid extends Mage_Adminhtml
     {
         return $this->getUrl('*/*/grid', array('_current' => true));
     }
+
+    protected function _prepareMassaction()
+    {
+	    $this->setMassactionIdField('order_id');
+		$this->getMassactionBlock()->setFormFieldName('orders');
+		$this->getMassactionBlock()->addItem('delete', array(
+		'label'=> Mage::helper('monkey')->__('Delete'),
+		'url'  => $this->getUrl('*/*/massDelete', array('' => '')),
+		'confirm' => Mage::helper('tax')->__('Are you sure?')
+		));
+		return $this;
+    }
+
 }

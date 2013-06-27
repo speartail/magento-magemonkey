@@ -1,38 +1,30 @@
 <?php
 /**
- * Created by Ebizmarts
- * User: gonzalo@ebizmarts.com
- * Date: 1/16/13
- * Time: 2:17 PM
+ * Author : Ebizmarts <info@ebizmarts.com>
+ * Date   : 5/7/13
+ * Time   : 11:08 PM
+ * File   : Grid.php
+ * Module : Ebizmarts_Magemonkey
  */
-class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid extends Mage_Adminhtml_Block_Widget_Grid
+class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedmails_Grid extends Mage_Adminhtml_Block_Widget_Grid
 {
-    /**
-     *
-     */
     public function __construct()
     {
         parent::__construct();
         // Set some defaults for our grid
         $this->setDefaultSort('id');
-        $this->setId('ebizmarts_abandonedcart_abandonedorder_grid');
+        $this->setId('ebizmarts_abandonedcart_abandonedmails_grid');
         $this->setUseAjax(true);
         $this->setDefaultSort('created_at');
         $this->setDefaultDir('DESC');
         $this->setSaveParametersInSession(true);
     }
 
-    /**
-     * @return string
-     */
     protected function _getCollectionClass()
     {
         return 'sales/order_grid_collection';
     }
 
-    /**
-     * @return this
-     */
     protected function _prepareCollection()
     {
         $collection = Mage::getResourceModel($this->_getCollectionClass());
@@ -42,10 +34,6 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid extends Mage_A
         $collection->addFieldToFilter($sales_flat_order_table.'.ebizmarts_abandonedcart_flag',array('eq' => 1));
         return parent::_prepareCollection();
     }
-
-    /**
-     * @return Mage_Adminhtml_Block_Widget_Grid
-     */
     protected function _prepareColumns()
     {
 
@@ -113,36 +101,9 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid extends Mage_A
 
         return parent::_prepareColumns();
     }
-
-    /**
-     * @return Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid|Mage_Adminhtml_Block_Widget_Grid
-     */
-    protected function _prepareMassaction()
-    {
-        $this->setMassactionIdField('entity_id');
-        $this->getMassactionBlock()->setFormFieldName('order_ids');
-        $this->getMassactionBlock()->setUseSelectAll(false);
-        return $this;
-
-    }
-
-    /**
-     * @param $row
-     * @return bool|string
-     */
-    public function getRowUrl($row)
-    {
-//        if (Mage::getSingleton('admin/session')->isAllowed('sales/order/actions/view')) {
-//            return $this->getUrl('*/sales_order/view', array('order_id' => $row->getId()));
-//        }
-        return false;
-    }
-
-    /**
-     * @return string
-     */
     public function getGridUrl()
     {
         return $this->getUrl('*/*/grid', array('_current'=>true));
     }
+
 }

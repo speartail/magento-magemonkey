@@ -98,8 +98,6 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
         try {
 
             $message = array (
-            				'html'        => $text,
-					        'text'        => $text,
 					        'subject'     => $this->getProcessedTemplateSubject($variables),
 					        'from_name'   => $this->getSenderName(),
 					        'from_email'  => $this->getSenderEmail(),
@@ -109,10 +107,19 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
 					        'headers'	  => array('Reply-To' => $this->replyTo)
 				        );
 
-			$tTags = $this->_getTemplateTags();
-			if(!empty($tTags)){
-				$message ['tags'] = $tTags;
+			if($this->isPlain()) {
+		 		$message['text'] = $text;
+			} else {
+				$message['html'] = $text;
 			}
+            if(isset($variables['tags']) && count($variables['tags'])) {
+                $message ['tags'] = $variables['tags'];
+            }
+
+//			$tTags = $this->_getTemplateTags($variables['store']);
+//			if(!empty($tTags)){
+//				$message ['tags'] = $tTags;
+//			}
 
             $sent = $mail->sendEmail($message);
             if($mail->errorCode){
@@ -127,29 +134,16 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
         return true;
     }
 
-    protected function _getTemplateTags() {
-
-	    $tags = array();
-
-	    $templateId = (string)$this->getId();
-
-		$templates = parent::getDefaultTemplates();
-		if (isset($templates[$templateId])) {
-			if(isset($templates[$templateId]['mandrill-tag'])) {
-				$tags = explode(',',$templates[$templateId]['mandrill-tag']);
-			} else {
-			    $tags []= substr($templates[$templateId]['label'], 0, 50);
-			}
-		} else {
-		        if($this->getTemplateCode()){
-		        	$tags []= substr($this->getTemplateCode(), 0, 50);
-		        } else {
-		        	$tags []= substr($templateId, 0, 50);
-		        }
-		}
-
-		return $tags;
-    }
+//    protected function _getTemplateTags($store) {
+//
+//	    $tags = array();
+//        $tags = explode(',',(string)Mage::getConfig()->getNode(Ebizmarts_AbandonedCart_Model_Config::ABANDONED_TAGS));
+//        $storeid = $store->getId();
+//        foreach($tags as $key => $value) {
+//            $tags[$key] = $value."_$storeid";
+//        }
+//		return $tags;
+//    }
 
     public function setReplyTo($email) {
         if(FALSE === Mage::helper('mandrill')->useTransactionalService()) {
@@ -158,6 +152,23 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
 
 		$this->replyTo = $email;
         return $this;
+    }
+
+	public function createAttachment($body,
+                                     $mimeType    = Zend_Mime::TYPE_OCTETSTREAM,
+                                     $disposition = Zend_Mime::DISPOSITION_ATTACHMENT,
+                                     $encoding    = Zend_Mime::ENCODING_BASE64,
+                                     $filename    = null)
+    {
+
+    }
+
+    public function addTo($email, $name = null)
+    {
+    	if(FALSE === Mage::helper('mandrill')->useTransactionalService()) {
+	        array_push($this->_bcc, $email);
+	        return $this;
+    	}
     }
 
 }
