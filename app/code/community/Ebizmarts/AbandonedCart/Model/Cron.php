@@ -23,7 +23,9 @@ class Ebizmarts_AbandonedCart_Model_Cron
      */
     protected function _proccess($store)
     {
+        Mage::unregister('_singleton/core/design_package');
         Mage::app()->setCurrentStore(Mage_Core_Model_App::ADMIN_STORE_ID);
+        Mage::getSingleton('core/design_package')->setStore($store);
 
         $adapter = Mage::getSingleton('core/resource')->getConnection('sales_read');
         $days = Mage::getStoreConfig(Ebizmarts_AbandonedCart_Model_Config::DAYS, $store);
@@ -128,7 +130,7 @@ class Ebizmarts_AbandonedCart_Model_Cron
             // send email
 
             $senderid =  Mage::getStoreConfig(Ebizmarts_AbandonedCart_Model_Config::SENDER, $store);
-            $sender = array('name'=>Mage::getStoreConfig("trans_email/ident_$senderid/name"), 'email'=> Mage::getStoreConfig("trans_email/ident_$senderid/email"));
+            $sender = array('name'=>Mage::getStoreConfig("trans_email/ident_$senderid/name", $store), 'email'=> Mage::getStoreConfig("trans_email/ident_$senderid/email", $store));
 
             $email = $quote->getCustomerEmail();
 
