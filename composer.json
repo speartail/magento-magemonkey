@@ -1,0 +1,15 @@
+{
+    "name": "speartail/magento-magemonkey",
+    "license": "Free BSD license with forum based customer support",
+    "type": "magento-module",
+    "description": "MageMonkey Official (and free) MailChimp integration for Magento",
+    "homepage": "http://ebizmarts.com/mailchimp",
+    "require": {
+        "magento-hackathon/magento-composer-installer": "*"
+    },
+    "authors":[
+        {
+            "name":"ebizmarts, peterhoeg"
+        }
+    ]
+}
