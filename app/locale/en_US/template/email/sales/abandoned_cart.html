@@ -11,24 +11,29 @@
                     <!-- [ middle starts here] -->
                     <tr>
                         <td valign="top">
-                            <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{htmlescape var=$order.getCustomerName()}}</h1>
+                            <h1 style="font-size:22px; font-weight:normal; line-height:22px; margin:0 0 11px 0;"">Hello, {{htmlescape var=$name}}</h1>
                             <p style="font-size:12px; line-height:16px; margin:0;">
                                 You have an abandoned cart at {{var store.getFrontendName()}}.
                                 You can access your cart <a href="{{var url}}" style="color:#1E7EC8;">here</a>.
-                                {{depend  couponcode}}
-                                <br>You can use this coupon code <b>{{var couponcode}}</b> and obtain a discount of {{var discount}} only until {{var todate}}.<br>
+                                {{depend couponcode}}
+                                <br>You can use this coupon code <b>{{var couponcode}}</b>
                                 {{/depend}}
-                                If you have any questions about your order please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
+                                {{depend discount}}
+                                and obtain a discount of {{var discount}} only until {{var todate}}
+                                {{/depend}}
+                                <br>If you have any questions about your order please contact us at <a href="mailto:{{config path='trans_email/ident_support/email'}}" style="color:#1E7EC8;">{{config path='trans_email/ident_support/email'}}</a> or call us at <span class="nobr">{{config path='general/store_information/phone'}}</span> Monday - Friday, 8am - 5pm PST.
                             </p>
                     </tr>
                     <tr>
                         <td>
-                            {{layout handle="ebizmarts_abandonedcart_email_order_items" quote=$quote}}
-                            <!--p style="font-size:12px; margin:0 0 10px 0">{{var order.getEmailCustomerNote()}}</p-->
+                            {{block type='ebizmarts_abandonedcart/email_order_items' area='frontend' template='ebizmarts_abandonedcart/email/order/items.phtml' quote=$quote}}
                         </td>
                     </tr>
                     <tr>
                         <td bgcolor="#EAEAEA" align="center" style="background:#EAEAEA; text-align:center;"><center><p style="font-size:12px; margin:0;">Thank you, <strong>{{var store.getFrontendName()}}</strong></p></center></td>
+                    </tr>
+                    <tr>
+                        <td>You can unsubscribe from this email clicking <a href="{{var unsubscribeurl}}" style="color:#1E7EC8;">here</a>.</td>
                     </tr>
                 </table>
             </td>

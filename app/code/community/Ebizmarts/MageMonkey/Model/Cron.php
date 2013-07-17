@@ -140,26 +140,27 @@ class Ebizmarts_MageMonkey_Model_Cron
 	{
 
 		$subscriber = $this->_getSubscriberObject($member['email']);
-
 		if( $createCustomer ){
+			$alreadyExist = false;
+			$websites = Mage::getModel('core/website')->getCollection()->getData();
+	        foreach($websites as $website){
+	        	$customer = Mage::getModel('customer/customer')->setWebsiteId($website['website_id'])
+															   ->loadByEmail($member['email']);
+				if($customer->getId()){
+			   		$alreadyExist = true;
+			   	}
+	        }
 
-			$customer = Mage::getModel('customer/customer')->setWebsiteId($websiteId)
-															->loadByEmail($member['email']);
-
-			//Create customer if not exists, and subscribe
-			if( is_null($customer->getId()) ){
+			if($alreadyExist == false){
+				//Create customer if not exists, and subscribe
 				$customer = $this->_helper()->createCustomerAccount($member, $websiteId);
 			}
-
 			$subscriber
-            ->setCustomerId($customer->getId())
-            ->save();
-
+	            ->setCustomerId($customer->getId())
+	            ->save();
 		}else{
-
 			//Just subscribe email
 			$subscriber->save();
-
 		}
 
 	}
@@ -237,11 +238,11 @@ class Ebizmarts_MageMonkey_Model_Cron
 		if($jobStoreId){
 			$collection->addFieldToFilter('store_id', $jobStoreId);
 		}
-		
+
 		if($job->getDataSourceEntity() == 'newsletter_subscriber'):
 			$collection->addFieldToFilter('subscriber_status', Mage_Newsletter_Model_Subscriber::STATUS_SUBSCRIBED);
 		endif;
-		
+
 		$collection->load();
 
 		//Update total count on first run
@@ -249,7 +250,7 @@ class Ebizmarts_MageMonkey_Model_Cron
 			$allRows = $collection->getSize();
 			$job->setTotalCount($allRows)->save();
 		}
-		
+
 		$batch = array();
 
 		foreach($job->lists() as $listId){
@@ -261,7 +262,6 @@ class Ebizmarts_MageMonkey_Model_Cron
 				$processedCount += 1;
 				$batch []= $this->_helper()->getMergeVars($item, TRUE);
 			}
-
 			if(count($batch) > 0){
 
 				$job->setStatus('chunk_running')
@@ -336,8 +336,6 @@ class Ebizmarts_MageMonkey_Model_Cron
 				break;
 			case 'customer':
 
-				//TODO: Add default Billing and Shipping address data
-
 				$model = Mage::getResourceModel('customer/customer_collection')
 							->addNameToSelect()
 							->addAttributeToSelect('gender')
@@ -409,4 +407,17 @@ class Ebizmarts_MageMonkey_Model_Cron
 
 		return $job->getFirstItem();
 	}
+
+	/** Send order to MailChimp Automatically by Order Status
+	 *
+	 *
+	 *
+	 */
+	public function processAutoExportJobs()
+	{
+		if (Mage::helper('monkey')->config('ecommerce360') == 3 && Mage::getModel('monkey/ecommerce360')->isActive()){
+			Mage::getModel('monkey/ecommerce360')->autoExportJobs();
+		}
+    }
+
 }
