@@ -191,6 +191,9 @@ class Ebizmarts_MageMonkey_Model_Ecommerce360
                     $names[] = $category->getName();
                 }
             }
+            if(!isset($mcitem['category_id'])) {
+            	$mcitem['category_id'] = 0;
+            }
         	$mcitem['category_name'] = (count($names))? implode(" - ",array_reverse($names)) : 'None';
             $mcitem['qty'] = $item->getQtyOrdered();
          	$mcitem['cost'] = ($this->_auxPrice > 0)? $this->_auxPrice : $item->getPrice();
@@ -236,5 +239,78 @@ class Ebizmarts_MageMonkey_Model_Ecommerce360
 	         ->setCreatedAt( Mage::getModel('core/date')->gmtDate() )
 		     ->save();
 	}
+
+	/** Send order to MailChimp Automatically by Order Status
+	 *
+	 *
+	 */
+	 public function autoExportJobs(){
+		$allow_sent = false;
+		$orderIds[] = '0';
+		$ecommerceOrders = Mage::getModel('monkey/ecommerce')
+    					->getCollection()->getData();
+    	if($ecommerceOrders) {
+	        foreach($ecommerceOrders as $ecommerceOrder){
+	        	$orderIds[] = $ecommerceOrder['order_id'];
+	        }
+    	}
+		$orders = Mage::getResourceModel('sales/order_collection');
+		//Get ALL orders which has not been sent to MailChimp
+		$orders->getSelect()->where('main_table.entity_id NOT IN(?)', $orderIds);
+		//Get status options selected in the Configuration
+		$states = explode(',', Mage::helper('monkey')->config('order_status'));
+		foreach($orders as $order){
+			foreach($states as $state){
+				if($order->getStatus() == $state || $state == 'all_status'){
+					$allow_sent = true;
+				}
+			}
+
+			if($allow_sent == true){
+				$this->_order = $order;
+				$api = Mage::getSingleton('monkey/api', array('store' => $this->_order->getStoreId()));
+				if(!$api){
+					return false;
+				}
+
+				$subtotal = $this->_order->getSubtotal();
+				$discount = (float)$this->_order->getDiscountAmount();
+				if ($discount != 0) {
+					$subtotal = $subtotal + ($discount);
+				}
+
+		        $this->_info = array(
+						                'id'          => $this->_order->getIncrementId(),
+						                'total'       => $subtotal,
+						                'shipping'    => $this->_order->getShippingAmount(),
+						                'tax'         => $this->_order->getTaxAmount(),
+						                'store_id'    => $this->_order->getStoreId(),
+						                'store_name'  => $this->_order->getStoreName(),
+						                'plugin_id'   => 1215,
+						                'items'       => array()
+		                			);
+
+				$email    = $this->_order->getCustomerEmail();
+				$campaign = $this->_order->getEbizmartsMagemonkeyCampaignId();
+				$this->setItemstoSend();
+
+				if($email && $campaign){
+					$this->_info ['email_id']= $email;
+					$this->_info ['campaign_id']= $campaign;
+
+					//Send order to MailChimp
+			    	$rs = $api->campaignEcommOrderAdd($this->_info);
+				}else{
+					$this->_info ['email']= $email;
+					$rs = $api->ecommOrderAdd($this->_info);
+				}
+				$allow_sent = false;
+				if ( $rs === TRUE ){
+					$this->_logCall();
+				}
+			}
+
+		}
+	 }
 
 }
