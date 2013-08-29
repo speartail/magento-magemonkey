@@ -7,7 +7,6 @@ app/design/adminhtml/default/default/layout/ebizmarts/abandonedcart.xml     app/
 app/design/adminhtml/default/default/layout/magemonkey.xml                  app/design/adminhtml/default/default/layout/magemonkey.xml
 app/design/adminhtml/default/default/layout/mandrill.xml                    app/design/adminhtml/default/default/layout/mandrill.xml
 app/design/adminhtml/default/default/template/ebizmarts                     app/design/adminhtml/default/default/template/ebizmarts
-app/design/adminhtml/default/default/template/autoresponder                 app/design/adminhtml/default/default/template/autoresponder
 app/design/adminhtml/default/default/template/magemonkey                    app/design/adminhtml/default/default/template/magemonkey
 app/design/adminhtml/default/default/template/mandrill                      app/design/adminhtml/default/default/template/mandrill
 
