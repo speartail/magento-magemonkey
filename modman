@@ -18,3 +18,4 @@ lib/Mandrill/                                                            lib/Man
 skin/adminhtml/default/default/magemonkey/                               skin/adminhtml/default/default/magemonkey/
 skin/adminhtml/default/default/mandrill/                                 skin/adminhtml/default/default/mandrill/
 skin/frontend/base/default/magemonkey/                                   skin/frontend/base/default/magemonkey/
+js/ebizmarts/                                                            js/ebizmarts/
