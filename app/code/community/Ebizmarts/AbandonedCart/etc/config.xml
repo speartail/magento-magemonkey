@@ -2,7 +2,7 @@
 <config>
     <modules>
         <Ebizmarts_AbandonedCart>
-            <version>0.1.16</version>
+            <version>0.1.24</version>
         </Ebizmarts_AbandonedCart>
     </modules>
     <global>
@@ -25,6 +25,12 @@
             </ebizmarts_abandonedcart>
             <ebizmarts_abandonedcart_resource>
                 <class>Ebizmarts_AbandonedCart_Model_Resource</class>
+                <deprecatedNode>ebizmarts_abandonedcart_mysql4</deprecatedNode>
+                <entities>
+                    <mailssent>
+                        <table>magemonkey_mails_sent</table>
+                    </mailssent>
+                </entities>
             </ebizmarts_abandonedcart_resource>
         </models>
         <blocks>
@@ -82,6 +88,16 @@
                 </Ebizmarts_AbandonedCart>
             </modules>
         </translate>
+        <events>
+            <admin_system_config_changed_section_ebizmarts_abandonedcart>
+                <observers>
+                    <ebizmarts_abandoned_save_config>
+                        <class>ebizmarts_abandonedcart/eventObserver</class>
+                        <method>saveConfig</method>
+                    </ebizmarts_abandoned_save_config>
+                </observers>
+            </admin_system_config_changed_section_ebizmarts_abandonedcart>
+        </events>
     </adminhtml>
 
     <frontend>
@@ -97,7 +113,7 @@
         <layout>
             <updates>
                 <ebizmarts_abandonedcart>
-                    <file>ebizmarts_abandonedcart.xml</file>
+                    <file>ebizmarts/abandonedcart.xml</file>
                 </ebizmarts_abandonedcart>
             </updates>
         </layout>
@@ -119,6 +135,8 @@
             <general>
                 <subject>Abandoned Cart Email</subject>
                 <mandrill-tag>AbandonedCart</mandrill-tag>
+                <autologin>0</autologin>
+                <page>checkout/cart</page>
             </general>
         </ebizmarts_abandonedcart>
     </default>

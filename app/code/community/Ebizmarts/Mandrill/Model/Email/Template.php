@@ -115,11 +115,19 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
             if(isset($variables['tags']) && count($variables['tags'])) {
                 $message ['tags'] = $variables['tags'];
             }
-
-//			$tTags = $this->_getTemplateTags($variables['store']);
-//			if(!empty($tTags)){
-//				$message ['tags'] = $tTags;
-//			}
+            else {
+                $templateId = (string)$this->getId();
+                $templates = parent::getDefaultTemplates();
+                if (isset($templates[$templateId])) {
+                	$message ['tags'] =  array(substr($templates[$templateId]['label'], 0, 50));
+				} else {
+				        if($this->getTemplateCode()){
+				        	$message ['tags'] = array(substr($this->getTemplateCode(), 0, 50));
+				        } else {
+				        	$message ['tags'] = array(substr($templateId, 0, 50));
+				        }
+				}
+            }
 
             $sent = $mail->sendEmail($message);
             if($mail->errorCode){
@@ -133,17 +141,6 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
 
         return true;
     }
-
-//    protected function _getTemplateTags($store) {
-//
-//	    $tags = array();
-//        $tags = explode(',',(string)Mage::getConfig()->getNode(Ebizmarts_AbandonedCart_Model_Config::ABANDONED_TAGS));
-//        $storeid = $store->getId();
-//        foreach($tags as $key => $value) {
-//            $tags[$key] = $value."_$storeid";
-//        }
-//		return $tags;
-//    }
 
     public function setReplyTo($email) {
         if(FALSE === Mage::helper('mandrill')->useTransactionalService()) {
@@ -159,6 +156,10 @@ class Ebizmarts_Mandrill_Model_Email_Template extends Mage_Core_Model_Email_Temp
                                      $disposition = Zend_Mime::DISPOSITION_ATTACHMENT,
                                      $encoding    = Zend_Mime::ENCODING_BASE64,
                                      $filename    = null)
+    {
+
+    }
+    public function addAttachment(Zend_Mime_Part $att)
     {
 
     }

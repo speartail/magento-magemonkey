@@ -355,4 +355,13 @@ class Mandrill_API {
         $this->_attachments[] = $att;
         return $att;
     }
+    public function addAttachment(Zend_Mime_Part $attachment)
+    {
+        $att = array();
+        $att['type'] = $attachment->type;
+        $att['name'] = $attachment->filename;
+        $this->_attachments[] = $att;
+
+        return $this;
+    }
 }

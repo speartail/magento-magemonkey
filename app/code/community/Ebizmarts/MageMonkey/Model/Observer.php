@@ -137,15 +137,6 @@ class Ebizmarts_MageMonkey_Model_Observer
 			return $observer;
 		}
 
-		$myRewrite = 'Ebizmarts_MageMonkey_Model_Email_Template';
-		$modelName = Mage::app()->getConfig()->getModelClassName('core/email_template');
-
-		if(Mage::helper('monkey')->useTransactionalService() && ($myRewrite !== $modelName)){
-			Mage::getSingleton('adminhtml/session')->addError(
-                Mage::helper('monkey')->__('Transactional Emails via MailChimp are not working because of a conflict with: "%s"', $modelName)
-            );
-		}
-
 		return $observer;
 	}
 
@@ -212,6 +203,12 @@ class Ebizmarts_MageMonkey_Model_Observer
 		}
 
 		if(is_array($additionalLists)){
+			foreach($additionalLists as $additional) {
+				if($additional == $selectedLists[0]) {
+					$message = Mage::helper('monkey')->__('Be Careful! You have choosen the same list for "General Subscription" and "Additional Lists". Please change this values and save the configuration again');
+					Mage::getSingleton('adminhtml/session')->addWarning($message);
+				}
+			}
 			$selectedLists = array_merge($selectedLists, $additionalLists);
 		}
 

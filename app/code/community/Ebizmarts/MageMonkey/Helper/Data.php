@@ -164,7 +164,9 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 	 */
 	public function log($data, $filename = 'Monkey.log')
 	{
-		return Mage::getModel('core/log_adapter', $filename)->log($data);
+		if($this->config('enable_log') != 0) {
+			return Mage::getModel('core/log_adapter', $filename)->log($data);
+		}
 	}
 
 	/**
@@ -825,17 +827,6 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
                         $subscriber->setMcStoreId(Mage::app()->getStore()->getId());
 						$subscriber->setImportMode(TRUE);
 						$subscriber->subscribe($email);
-						//Just for registering the groups in the checkout page
-                        $customer->setListGroups($groupings);
-                        $mergeVars = Mage::helper('monkey')->getMergeVars($customer);
-						if(!is_null($request->getPost('magemonkey_subscribe'))){
-							$isOnList = Mage::helper('monkey')->subscribedToList($email, $listId);
-							if(!$isOnList){
-								$api->listSubscribe($listId, $email, $mergeVars, 'html', $isConfirmNeed);
-							} else {
-								$api->listUpdateMember($listId, $email, $mergeVars);
-							}
-						}
 					}else{
 						$customer->setListGroups($groupings);
 						$customer->setMcListId($listId);
