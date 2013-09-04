@@ -33,3 +33,5 @@ skin/adminhtml/default/default/magemonkey   skin/adminhtml/default/default/magem
 skin/adminhtml/default/default/mandrill   skin/adminhtml/default/default/mandrill
 
 lib/Mandrill    lib/Mandrill
+
+js/ebizmarts/autoresponders/visitedproducts.js      js/ebizmarts/autoresponders/visitedproducts.js
