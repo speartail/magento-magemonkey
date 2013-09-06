@@ -301,7 +301,7 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 
 			$html = $object->getElementHtml();
 
-		}elseif($fieldType == 'radio' || $fieldType == 'hidden'){
+		}elseif($fieldType == 'radio'){
 
 			$options = array();
 			foreach($group['groups'] as $g){
@@ -318,7 +318,9 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 			}
 
 			$html = $object->getElementHtml();
-		}
+		} else {
+            $html = '';
+        }
 
 		if($fieldType != 'checkboxes'){
 			$html = "<div class=\"groups-list\">{$html}</div>";
