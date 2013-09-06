@@ -16,6 +16,7 @@ app/design/frontend/base/default/layout/ebizmarts                   app/design/f
 
 app/design/frontend/base/default/template/ebizmarts_abandonedcart		app/design/frontend/base/default/template/ebizmarts_abandonedcart
 app/design/frontend/base/default/template/magemonkey				app/design/frontend/base/default/template/magemonkey
+app/design/frontend/base/default/template/ebizmarts				app/design/frontend/base/default/template/ebizmarts
 
 app/etc/modules/Ebizmarts_AbandonedCart.xml					app/etc/modules/Ebizmarts_AbandonedCart.xml
 app/etc/modules/Ebizmarts_MageMonkey.xml					app/etc/modules/Ebizmarts_MageMonkey.xml
