@@ -4,10 +4,10 @@ div.interest-groupings{
 div.interest-groupings div.grouping{
 	margin-top:4px;
 }
-div.interest-groupings div.grouping ul.checkboxes li{
-	display:inline;
-	margin-left:20px;
-}
+
+div.interest-groupings div.grouping ul.checkboxes li { margin-left:20px; width: 45%; box-sizing: border-box; display: inline-block !important; vertical-align: top; }
+div.interest-groupings strong { margin: 15px 0 5px; display:block; }
+
 div.interest-groupings div.grouping div.groups-list input, div.interest-groupings div.grouping div.groups-list select {
 	margin-left:20px;
 }

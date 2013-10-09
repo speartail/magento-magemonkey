@@ -413,7 +413,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 					case 'dob':
 							$dob = (string)$customer->getData(strtolower($customAtt));
 							if($dob){
-								$merge_vars[$key] = (substr($dob, 5, 2) . '/' . substr($dob, 8, 2));
+								$merge_vars[$key] = date('Y/m/d', strtotime($dob));
 							}
 						break;
 					case 'billing_address':
