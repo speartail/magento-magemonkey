@@ -102,8 +102,7 @@ class Ebizmarts_AbandonedCart_Model_Cron
             if(count($customergroups)) {
                 $collection2->addFieldToFilter('main_table.customer_group_id', array('in', $customergroups));
             }
-            Mage::helper('ebizmarts_abandonedcart')->log((string)$collection1->getSelect());
-            Mage::helper('ebizmarts_abandonedcart')->log((string)$collection2->getSelect());
+            
             $collection = $collection1;
             foreach($collection2 as $quote) {
                 $collection->addItem($quote);
