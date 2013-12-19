@@ -1,0 +1,219 @@
+<?xml version="1.0"?>
+<!--
+    Configuration file for Ebizmarts_Autoresponder module, touch at you entire responsibility
+
+    Author : Ebizmarts <info@ebizmarts.com>
+    Date   : 4/28/13
+    Time   : 11:20 AM
+    File   : config.xml
+    Module : Ebizmarts_Magemonkey
+-->
+<config>
+    <modules>
+        <Ebizmarts_Autoresponder>
+            <version>0.1.4</version>
+        </Ebizmarts_Autoresponder>
+    </modules>
+    <global>
+        <models>
+            <ebizmarts_autoresponder>
+                <class>Ebizmarts_Autoresponder_Model</class>
+                <resourceModel>ebizmarts_autoresponder_resource</resourceModel>
+            </ebizmarts_autoresponder>
+            <ebizmarts_autoresponder_resource>
+                <class>Ebizmarts_Autoresponder_Model_Resource</class>
+                <deprecatedNode>ebizmarts_autoresponder_mysql4</deprecatedNode>
+                <entities>
+                    <unsubscribe>
+                        <table>ebizmarts_autoresponder_unsubscribe</table>
+                    </unsubscribe>
+                    <visited>
+                        <table>ebizmarts_autoresponder_visited</table>
+                    </visited>
+                </entities>
+            </ebizmarts_autoresponder_resource>
+        </models>
+        <blocks>
+            <ebizmarts_autoresponder>
+                <class>Ebizmarts_Autoresponder_Block</class>
+            </ebizmarts_autoresponder>
+        </blocks>
+        <helpers>
+            <ebizmarts_autoresponder>
+                <class>Ebizmarts_Autoresponder_Helper</class>
+            </ebizmarts_autoresponder>
+        </helpers>
+        <resources>
+            <ebizmarts_autoresponder_setup>
+                <setup>
+                    <module>Ebizmarts_Autoresponder</module>
+                    <class>Mage_Eav_Model_Entity_Setup</class>
+                </setup>
+            </ebizmarts_autoresponder_setup>
+        </resources>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_neworder_template translate="label" module="ebizmarts_autoresponder">
+                    <label>New Order Email</label>
+                    <file>ebizmarts/autoresponder/neworder.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_neworder_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_related_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Related Products Email</label>
+                    <file>ebizmarts/autoresponder/relatedproducts.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_related_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_review_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Review Email</label>
+                    <file>ebizmarts/autoresponder/review.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_review_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_birthday_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Customer Birthday Email</label>
+                    <file>ebizmarts/autoresponder/birthday.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_birthday_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_registration_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Registration Email</label>
+                    <file>ebizmarts/autoresponder/registration.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_registration_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_newsletter_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Newsletter Registration Email</label>
+                    <file>ebizmarts/autoresponder/newsletter.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_newsletter_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_noactivity_template translate="label" module="ebizmarts_autoresponder">
+                    <label>No Customer Activity Email</label>
+                    <file>ebizmarts/autoresponder/noactivity.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_noactivity_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_wishlist_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Wishlist Email</label>
+                    <file>ebizmarts/autoresponder/wishlist.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_wishlist_template>
+            </email>
+        </template>
+        <template>
+            <email>
+                <ebizmarts_autoresponder_visitedproducts_template translate="label" module="ebizmarts_autoresponder">
+                    <label>Visited Products Email</label>
+                    <file>ebizmarts/autoresponder/visitedproducts.html</file>
+                    <type>html</type>
+                </ebizmarts_autoresponder_visitedproducts_template>
+            </email>
+        </template>
+    </global>
+    <adminhtml>
+        <events>
+            <admin_system_config_changed_section_ebizmarts_autoresponder>
+                <observers>
+                    <ebizmarts_autoresponder_save_config>
+                        <class>ebizmarts_autoresponder/eventObserver</class>
+                        <method>saveConfig</method>
+                    </ebizmarts_autoresponder_save_config>
+                </observers>
+            </admin_system_config_changed_section_ebizmarts_autoresponder>
+        </events>
+    </adminhtml>
+    <frontend>
+        <layout>
+            <updates>
+                <ebizmarts_autoresponder>
+                    <file>ebizmarts/autoresponder.xml</file>
+                </ebizmarts_autoresponder>
+            </updates>
+        </layout>
+        <routers>
+            <ebizmarts_autoresponder>
+                <use>standard</use>
+                <args>
+                    <module>Ebizmarts_Autoresponder</module>
+                    <frontName>ebizautoresponder</frontName>
+                </args>
+            </ebizmarts_autoresponder>
+        </routers>
+    </frontend>
+
+    <crontab>
+        <jobs>
+            <ebizmarts_autoresponder>
+                <schedule>
+                    <cron_expr>0 1 * * *</cron_expr>
+                </schedule>
+                <run>
+                    <model>ebizmarts_autoresponder/cron::process</model>
+                </run>
+            </ebizmarts_autoresponder>
+        </jobs>
+    </crontab>
+    <default>
+        <ebizmarts_autoresponder>
+            <neworder>
+                <mandrill-tag>Autoresponder_NewOrder</mandrill-tag>
+                <subject>Thanks for your order</subject>
+                <listname>New Order List</listname>
+            </neworder>
+            <related>
+                <mandrill-tag>Autoresponder_RelatedProducts</mandrill-tag>
+                <max-related>5</max-related>
+                <subject>Products of your interest</subject>
+                <listname>Related Product List</listname>
+            </related>
+            <review>
+                <mandrill-tag>Autoresponder_Review</mandrill-tag>
+                <subject>Please review your purchased products</subject>
+                <listname>Review Product List</listname>
+            </review>
+            <birthday>
+                <mandrill-tag>Autoresponder_Birthday</mandrill-tag>
+                <subject>Happy birthday</subject>
+                <listname>Happy Birthday List</listname>
+            </birthday>
+            <noactivity>
+                <mandrill-tag>Autoresponder_NoCustomerActivity</mandrill-tag>
+                <subject>You don't have any activity</subject>
+                <listname>No Activity List</listname>
+            </noactivity>
+            <wishlist>
+                <mandrill-tag>Autoresponder_WishlistAdd</mandrill-tag>
+                <subject>Wishlist Subject</subject>
+                <listname>Wishlist List</listname>
+            </wishlist>
+            <visitedproducts>
+                <mandrill-tag>Autoresponder_VisitedProducts</mandrill-tag>
+                <subject>Visited Product Subject</subject>
+                <listname>Visited Product List</listname>
+            </visitedproducts>
+        </ebizmarts_autoresponder>
+    </default>
+</config>

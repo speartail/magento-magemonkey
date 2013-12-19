@@ -225,7 +225,11 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 
 		$fieldType = $group['form_field'];
 
-		$memberInfo = $this->_memberInfo($list['id']);
+		if($this->_getEmail()){
+			$memberInfo = $this->_memberInfo($list['id']);
+		} else {
+			$memberInfo['success'] = 0;
+		}
 
 		$myGroups = array();
 		if($memberInfo['success'] == 1){
@@ -297,7 +301,7 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 
 			$html = $object->getElementHtml();
 
-		}elseif($fieldType == 'radio' || $fieldType == 'hidden'){
+		}elseif($fieldType == 'radio'){
 
 			$options = array();
 			foreach($group['groups'] as $g){
@@ -314,7 +318,9 @@ class Ebizmarts_MageMonkey_Block_Lists extends Mage_Core_Block_Template
 			}
 
 			$html = $object->getElementHtml();
-		}
+		} else {
+            $html = '';
+        }
 
 		if($fieldType != 'checkboxes'){
 			$html = "<div class=\"groups-list\">{$html}</div>";
