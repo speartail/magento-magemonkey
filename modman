@@ -12,7 +12,6 @@ app/design/frontend/base/default/layout/ebizmarts_abandonedcart.xml      app/des
 app/design/frontend/base/default/layout/magemonkey.xml                   app/design/frontend/base/default/layout/magemonkey.xml
 app/design/frontend/base/default/template/magemonkey/                    app/design/frontend/base/default/template/magemonkey/
 app/design/frontend/base/default/template/ebizmarts_abandonedcart/       app/design/frontend/base/default/template/ebizmarts_abandonedcart/
-app/locale/en_US/template/                                               app/locale/en_US/template/
 app/locale/en_US/Ebizmarts_MageMonkey.csv                                app/locale/en_US/Ebizmarts_MageMonkey.csv
 lib/Mandrill/                                                            lib/Mandrill/
 skin/adminhtml/default/default/magemonkey/                               skin/adminhtml/default/default/magemonkey/
