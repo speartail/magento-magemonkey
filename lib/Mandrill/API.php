@@ -51,6 +51,8 @@ class Mandrill_API {
 	 */
     protected $_output = 'json';
 
+    protected $_attachments = array();
+
     /**
      * Setup data
      *
@@ -159,16 +161,30 @@ class Mandrill_API {
      *   array   tags	 an array of string to tag the message with. Stats are accumulated using tags, though we only store the first 100 we see, so this should not be unique or change frequently. Tags should be 50 characters or less. Any tags starting with an understore are reserved for internal use and will cause errors.
 	 */
 	public function messagesSend($message) {
-
 		$to = array();
 
 		foreach($message['to_email'] as $pos => $email){
 			$to []= array(
 							'email' => $email,
-							'name'  => $message['to_name'][$pos]
+							'name'  => $message['to_name'][$pos],
+                            'type'  => 'to'
 						 );
 		}
 
+		if(isset($message['bcc_address']) && !empty($message['bcc_address'])) {
+			foreach($message['bcc_address'] as $bccmail) {
+				$to []= array(
+					'email' => $bccmail,
+					'type'  => 'bcc'
+				);
+
+			}
+		}
+
+        unset($message['bcc_address']);
+        if(count($this->_attachments)) {
+            $message['attachments'] = $this->_attachments;
+        }
 		$message['to'] = $to;
 		unset($message['to_email'], $message['to_name']);
 
@@ -281,8 +297,8 @@ class Mandrill_API {
 
 		$url = $this->apiUrl . $method . '.' . $this->_output;
 
-		Mage::helper('mandrill')->log($url, 'MageMonkey_ApiCall.log');
-		Mage::helper('mandrill')->log($params, 'MageMonkey_ApiCall.log');
+		Mage::helper('mandrill')->log($url, 'Ebizmarts_Mandrill.log');
+		Mage::helper('mandrill')->log($params, 'Ebizmarts_Mandrill.log');
 
         $curlSession = curl_init();
 
@@ -319,7 +335,7 @@ class Mandrill_API {
 
 		$resultObject = json_decode($result);
 
-		Mage::helper('mandrill')->log($resultObject, 'MageMonkey_ApiCall.log');
+		Mage::helper('mandrill')->log($resultObject, 'Ebizmarts_Mandrill.log');
 
 		//You can consider any non-200 HTTP response code an error
 		//the returned data will contain more detailed information
@@ -339,5 +355,26 @@ class Mandrill_API {
 
         return $this->_callServer("tags/info", $params);
     }
+    public function createAttachment($body,
+                                     $mimeType    = Zend_Mime::TYPE_OCTETSTREAM,
+                                     $disposition = Zend_Mime::DISPOSITION_ATTACHMENT,
+                                     $encoding    = Zend_Mime::ENCODING_BASE64,
+                                     $filename    = null)
+    {
+        $att = array();
+        $att['type'] = $mimeType;
+        $att['name'] = $filename;
+        $att['content'] = base64_encode($body);
+        $this->_attachments[] = $att;
+        return $att;
+    }
+    public function addAttachment(Zend_Mime_Part $attachment)
+    {
+        $att = array();
+        $att['type'] = $attachment->type;
+        $att['name'] = $attachment->filename;
+        $this->_attachments[] = $att;
 
+        return $this;
+    }
 }

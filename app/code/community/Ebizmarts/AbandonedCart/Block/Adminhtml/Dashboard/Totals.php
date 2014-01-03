@@ -30,8 +30,8 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Dashboard_Totals extends Mage_Admi
         $collection = Mage::getResourceModel('ebizmarts_abandonedcart/order_collection')
                             ->addCreateAtPeriodFilter($period)
                             ->calculateTotals($isFilter);
-        $collection->getSelect()->join('sales_flat_quote' , 'main_table.increment_id = sales_flat_quote.reserved_order_id', 'ebizmarts_abandonedcart_flag');
-        $collection->addFieldToFilter('sales_flat_quote.ebizmarts_abandonedcart_flag',array('eq' => 1));
+//        $collection->getSelect()->join('sales_flat_quote' , 'main_table.increment_id = sales_flat_quote.reserved_order_id', 'ebizmarts_abandonedcart_flag');
+        $collection->addFieldToFilter('main_table.ebizmarts_abandonedcart_flag',array('eq' => 1));
 
 
 
@@ -111,14 +111,44 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Dashboard_Totals extends Mage_Admi
             }
             // add totals for emails
             if($particular) {
-                $aux = $particular['sent'] - $particular['hard_bounces']; // - $particular['soft_bounces'];
-                $received = sprintf('%d (%2.2f%%)',$aux,$aux/$particular['sent']*100);
-                $this->addTotal($this->__('Emails Sent'),$particular['sent'],true);
-                $this->addTotal($this->__('Emails Received'),$received,true);
-                $opens = sprintf('%d (%2.2f%%)',$particular['unique_opens'],$particular['unique_opens']/$particular['sent']*100);
+
+                $_sent = $particular['sent'];
+                $_hard_bounces = $particular['hard_bounces'];
+                $_unique_opens = $particular['unique_opens'];
+                $_unique_clicks = $particular['unique_clicks'];
+
+
+                //Emails Sent and Received
+                $aux = $_sent - $_hard_bounces; // - $particular['soft_bounces'];
+                if($aux > 0) {
+                    $aux2 = $aux/ $_sent*100;
+                }else{
+                    $aux2 = 0;
+                }
+                $received = sprintf('%d (%2.2f%%)', $aux, $aux2);
+
+                $this->addTotal($this->__('Emails Sent'), $_sent,true);
+                $this->addTotal($this->__('Emails Received'), $received,true);
+
+                //Emails Opened
+                if($_unique_opens > 0) {
+                    $emailsOpened = $_unique_opens / $_sent*100;
+                }else{
+                    $emailsOpened = 0;
+                }
+
+                $opens = sprintf('%d (%2.2f%%)', $_unique_opens, $emailsOpened);
                 $this->addTotal($this->__('Emails Opened'),$opens,true);
-                $clicks = sprintf('%d (%2.2f%%)',$particular['unique_clicks'],$particular['unique_clicks']/$particular['unique_opens']*100);
-                $this->addTotal($this->__('Emails Clicked'),$clicks,true);
+
+                //Emails Clicked
+                if($_unique_clicks > 0){
+                    $emailsClicked = $_unique_clicks / $_unique_opens*100;
+                }else{
+                    $emailsClicked = 0;
+                }
+
+                $clicks = sprintf('%d (%2.2f%%)', $_unique_clicks, $emailsClicked);
+                $this->addTotal($this->__('Emails Clicked'), $clicks,true);
             }
         }
     }
@@ -132,8 +162,8 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Dashboard_Totals extends Mage_Admi
     {
         $mandrill = Mage::helper('mandrill')->api();
         $mandrill->setApiKey(Mage::helper('mandrill')->getApiKey($store));
-
-        $tags = $mandrill->tagsInfo('AbandonedCart');
+        $mandrillTag = Mage::getStoreConfig(Ebizmarts_AbandonedCart_Model_Config::MANDRILL_TAG, $store)."_$store";
+        $tags = $mandrill->tagsInfo($mandrillTag);
         if(!$tags) {
             return false;
         }

@@ -37,8 +37,9 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid extends Mage_A
     {
         $collection = Mage::getResourceModel($this->_getCollectionClass());
         $this->setCollection($collection);
-        $collection->getSelect()->join('sales_flat_quote' , 'main_table.increment_id = sales_flat_quote.reserved_order_id', 'ebizmarts_abandonedcart_flag');
-        $collection->addFieldToFilter('sales_flat_quote.ebizmarts_abandonedcart_flag',array('eq' => 1));
+        $sales_flat_order_table = Mage::getSingleton('core/resource')->getTableName('sales_flat_order');
+        $collection->getSelect()->join($sales_flat_order_table , 'main_table.increment_id = '.$sales_flat_order_table.'.increment_id', 'ebizmarts_abandonedcart_flag');
+        $collection->addFieldToFilter($sales_flat_order_table.'.ebizmarts_abandonedcart_flag',array('eq' => 1));
         return parent::_prepareCollection();
     }
 
@@ -59,6 +60,7 @@ class Ebizmarts_AbandonedCart_Block_Adminhtml_Abandonedorder_Grid extends Mage_A
             $this->addColumn('store_id', array(
                 'header'    => Mage::helper('sales')->__('Purchased From (Store)'),
                 'index'     => 'store_id',
+                'filter_index' => 'main_table.store_id',
                 'type'      => 'store',
                 'store_view'=> true,
                 'display_deleted' => true,
