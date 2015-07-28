@@ -213,7 +213,7 @@ class Ebizmarts_MageMonkey_Helper_Data extends Mage_Core_Helper_Abstract
 			$member = Mage::getSingleton('monkey/api')
 										->listMemberInfo($listId, $email);
 
-	        if(!is_string($member) && $member['success'] && ($member['data'][0]['status'] == 'subscribed' || $member['data'][0]['status'] == 'pending')){
+            if (!is_string($member) && $member['success'] && ($member['data'][0]['status'] == 'subscribed' )) {
 	            $on = TRUE;
 	        }
 		}
