@@ -17,6 +17,13 @@ class Ebizmarts_MageMonkey_Model_Observer
 	 */
 	public function handleSubscriber(Varien_Event_Observer $observer)
 	{
+        //Prevent double confirmation being sent on register due to customer_save event firing multiple times
+        //ref: http://stackoverflow.com/questions/5838346/magento-customer-save-after-always-fired-twice
+        if (Mage::registry('monkey_handle_subscriber_executed')) {
+            return $observer;
+        }
+        Mage::register('monkey_handle_subscriber_executed', true);
+
 		if(!Mage::helper('monkey')->canMonkey()){
 			return $observer;
 		}
